@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -52,18 +51,18 @@ namespace Application {
             }
             if (target.HasFlag(LogTarget.Database))
             {
-                SqlConnection connection = null;
-                using (connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                System.Data.SqlClient.SqlConnection connection = null;
+                using (connection = new System.Data.SqlClient.SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 {
                     try
                     {
-                        SqlCommand command = connection.CreateCommand();
+                        System.Data.SqlClient.SqlCommand command = connection.CreateCommand();
                         command.CommandText = "InsertintoLogValues('" + message + "'," + Convert.ToString(logType) + ")";
                         command.Connection = connection;
                         connection.Open();
                         command.ExecuteNonQuery();
                     }
-                    catch (SqlException sqlExc)
+                    catch (System.Data.SqlClient.SqlException sqlExc)
                     {
                         throw sqlExc;
                     }
