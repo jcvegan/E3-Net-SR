@@ -5,10 +5,20 @@ using System.Text;
 namespace Application {
     public static class JobLogger {
         private const string CONST_LogFile_Prefix = "LogFile";
+        /// <summary>
+        /// Method for logging, calling this method will store the message on the three log target (File, Console and Database)
+        /// </summary>
+        /// <param name="logType">Specify the type of the message (Message, Warining or Error)</param>
+        /// <param name="message">Specify the message of the log.</param>
         public static void LogMessage(LogType logType, string message) {
             LogMessage(logType, LogTarget.Console | LogTarget.Database | LogTarget.File, message);
         }
-        
+        /// <summary>
+        /// Method for logging, calling this method will store the message on the specific target
+        /// </summary>
+        /// <param name="logType">Specify the type of the message (Message, Warining or Error)</param>
+        /// <param name="target">Specify where the record will be stored</param>
+        /// <param name="message">Specify the message of the log.</param>
         public static void LogMessage(LogType logType, LogTarget target, string message) {
             if (string.IsNullOrEmpty(message))
                 return;
@@ -57,7 +67,7 @@ namespace Application {
                     try
                     {
                         System.Data.SqlClient.SqlCommand command = connection.CreateCommand();
-                        command.CommandText = "InsertintoLogValues('" + message + "'," + Convert.ToString(logType) + ")";
+                        command.CommandText = "exec InsertintoLogValues '" + message + "'," + Convert.ToString(logType) + "";
                         command.Connection = connection;
                         connection.Open();
                         command.ExecuteNonQuery();
