@@ -30,18 +30,18 @@ namespace Application {
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                 }
-                Console.WriteLine(string.Format("{0} {1}", DateTime.Now.ToShortDateString(), message));
+                Console.WriteLine(string.Format("{0} {1}", DateTime.Today.ToString("yyyyMMdd"), message));
             }
             if (target.HasFlag(LogTarget.File))
             {
                 try
                 {
-                    string path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["Log_FileDirectory"], string.Concat(CONST_LogFile_Prefix, DateTime.Now.ToShortDateString(), ".txt"));
+                    string path = System.IO.Path.Combine(System.Configuration.ConfigurationManager.AppSettings["Log_FileDirectory"], string.Concat(CONST_LogFile_Prefix, DateTime.Today.ToString("yyyyMMdd"), ".txt"));
                     string content = string.Empty;
                     if (System.IO.File.Exists(path))
                         content = System.IO.File.ReadAllText(path);
                     StringBuilder sBuilder = new StringBuilder(content);
-                    sBuilder.AppendLine(string.Format("{0} {1}", DateTime.Now.ToShortDateString(), message));
+                    sBuilder.AppendLine(string.Format("{0} {1}", DateTime.Today.ToString("yyyyMMdd"), message));
                     System.IO.File.WriteAllText(path, sBuilder.ToString());
                 }
                 catch (System.IO.IOException ioExc)
